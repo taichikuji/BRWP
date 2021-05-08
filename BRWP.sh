@@ -3,9 +3,9 @@
 WEBHOOK_URL="<>"
 SUBREDDIT="<>"
 # Check if jq is installed
-if [ $(dpkg-query -W -f='${Status}' jq 2>/dev/null | grep -c "ok installed") -eq 0 ];
+if ! command -v jq &> /dev/null
 then
-    apt-get install jq -y;
+    apt install jq -y
 fi
 # Retrieve data from reddit and saves it as an array
 POST_ARRAY=( $(curl -s --user-agent 'shell:github (/u/Taichikuji)' "https://www.reddit.com/r/$SUBREDDIT/hot.json?limit=5" | jq -r '.data.children[].data.url_overridden_by_dest') )
